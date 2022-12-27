@@ -4,7 +4,7 @@ class ProfilesController < ApplicationController
     raise Forbidden unless user_safe?
 
     @skill_categories = user_reccomend_skill_categories
-    @articles = @user.articles
+    @articles = @user.articles.preload(:tags)
   end
 
   private
@@ -16,7 +16,7 @@ class ProfilesController < ApplicationController
   end
 
   def user_reccomend_skill_categories
-    @user.skills.map(&:skill_category).
-      filter { |skill_category| skill_category.reccomend }.uniq
+    # @user.skills.map(&:skill_category).
+    #   filter { |skill_category| skill_category.reccomend }.uniq
   end
 end
